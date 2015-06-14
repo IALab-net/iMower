@@ -50,11 +50,11 @@ def move(pos, direction):
             return pos
 
 
-def elem_rules_trans(e):
+def elem_rules_trans(e, earth_mode):
     if e == 'H':
         return 'L'
     if e == 'L':
-        return 'E'
+        return 'E' if earth_mode else 'L'
     if e == 'R':
         return 'R'
     if e == 'E':
@@ -63,7 +63,7 @@ def elem_rules_trans(e):
 
 
 class GameState():
-    def __init__(self, path=None, grid=None, mower_pos=None, under_mower='L', nb_propellers=3, bonus_mow=10, living_penalty=1, earth_mow_penalty=5, lose_propeller=200, score=0, penalties=None):
+    def __init__(self, path=None, grid=None, mower_pos=None, earth_mode=False, under_mower='L', nb_propellers=3, bonus_mow=10, living_penalty=1, earth_mow_penalty=5, lose_propeller=200, score=0, penalties=None):
         if grid is None:
             grid = load_world_settings(path)
             self._mower_pos = where_element(grid, 'M')
@@ -73,6 +73,7 @@ class GameState():
             self._mower_pos = mower_pos
             self._grid = grid
 
+        self._earth_mode = earth_mode
         self._nb_propellers = nb_propellers
         self._bonus_mow = bonus_mow
         self._score = score
@@ -96,6 +97,7 @@ class GameState():
         grid = self._grid.copy()
         nb_propellers = self._nb_propellers
         bonus_mow = self._bonus_mow
+        earth_mode = self._earth_mode
         next_pos = move(pos, action)
         score = self._score
         penalties = self._penalties.copy()
@@ -112,11 +114,11 @@ class GameState():
                 if next_e == 'L':
                     score -= penalties['mow_to_earth']
 
-                grid[next_pos[0], next_pos[1]] = elem_rules_trans(next_e)
+                grid[next_pos[0], next_pos[1]] = elem_rules_trans(next_e, earth_mode)
 
         score -= penalties['living']
 
-        return GameState(grid=grid, mower_pos=next_pos, bonus_mow=bonus_mow, nb_propellers=nb_propellers, score=score, penalties=penalties)
+        return GameState(grid=grid, mower_pos=next_pos, earth_mode=earth_mode, bonus_mow=bonus_mow, nb_propellers=nb_propellers, score=score, penalties=penalties)
 
 
 class Block:
@@ -205,6 +207,7 @@ def main():
     parser.add_argument('--heuristic', default='null_heuristic')
     parser.add_argument('--world', default='1')
     parser.add_argument('--solution', action='store_const', const=True, default=False)
+    parser.add_argument('--earth_mode', action='store_const', const=True, default=False)
 
     args = parser.parse_args()
 
@@ -212,7 +215,7 @@ def main():
     font = pygame.font.SysFont("monospace", 30)
     path = 'worlds/world-%s.txt' % args.world
     window_size = (700, 700)
-    gameState = GameState(path)
+    gameState = GameState(path, earth_mode=args.earth_mode)
     actions_mapping = {K_DOWN: 'DOWN', K_UP: 'UP', K_RIGHT: 'RIGHT', K_LEFT: 'LEFT'}
 
     grid_size = gameState.get_grid_size()

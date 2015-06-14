@@ -10,6 +10,7 @@ class MowSearchProblem():
         self._e_ij = lambda i, j: i * self._grid.shape[1] + j
         self._initial_state = (starting_gameState._mower_pos, elems_state, starting_gameState._nb_propellers)
         self._penalties = starting_gameState._penalties
+        self._earth_mode = starting_gameState._earth_mode
         self._expanded = 0
 
     def get_initial_state(self):
@@ -43,7 +44,7 @@ class MowSearchProblem():
             if next_e == 'R':
                 nb_propellers = max(nb_propellers - 1, 0)
 
-            elems_state[ind_next_e] = elem_rules_trans(next_e)
+            elems_state[ind_next_e] = elem_rules_trans(next_e, self._earth_mode)
 
         return (pos, ''.join(elems_state), nb_propellers)
 
