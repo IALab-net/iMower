@@ -111,14 +111,15 @@ class GameState():
                     score -= penalties['lose_propeller']
                 if next_e == 'H':
                     score += bonus_mow
-                if next_e == 'L':
+                if (next_e == 'L') and self._earth_mode:
                     score -= penalties['mow_to_earth']
 
                 grid[next_pos[0], next_pos[1]] = elem_rules_trans(next_e, earth_mode)
+                pos = next_pos
 
         score -= penalties['living']
 
-        return GameState(grid=grid, mower_pos=next_pos, earth_mode=earth_mode, bonus_mow=bonus_mow, nb_propellers=nb_propellers, score=score, penalties=penalties)
+        return GameState(grid=grid, mower_pos=pos, earth_mode=earth_mode, bonus_mow=bonus_mow, nb_propellers=nb_propellers, score=score, penalties=penalties)
 
 
 class Block:
