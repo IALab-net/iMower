@@ -214,12 +214,15 @@ def main():
 
     pygame.font.init()
     font = pygame.font.SysFont("monospace", 30)
-    path = 'worlds/world-%s.txt' % args.world
-    window_size = (700, 700)
+    path = 'worlds/bonus.txt' if args.world == 'bonus' else 'worlds/world-%s.txt' % args.world
     gameState = GameState(path, earth_mode=args.earth_mode)
+    grid_size = gameState.get_grid_size()
+    ratio = grid_size[0]*1./grid_size[1]
+
+    xw = 100 if args.world == 'bonus' else 700
+    window_size = (int(xw/ratio), xw)
     actions_mapping = {K_DOWN: 'DOWN', K_UP: 'UP', K_RIGHT: 'RIGHT', K_LEFT: 'LEFT'}
 
-    grid_size = gameState.get_grid_size()
     block_size = (window_size[0] / grid_size[1], window_size[1] / grid_size[0])
     window_size = (grid_size[1]*block_size[0], grid_size[0]*block_size[1])
 
