@@ -219,7 +219,7 @@ def main():
     grid_size = gameState.get_grid_size()
     ratio = grid_size[0]*1./grid_size[1]
 
-    xw = 100 if args.world == 'bonus' else 700
+    xw = 200 if args.world == 'bonus' else 700
     window_size = (int(xw/ratio), xw)
     actions_mapping = {K_DOWN: 'DOWN', K_UP: 'UP', K_RIGHT: 'RIGHT', K_LEFT: 'LEFT'}
 
