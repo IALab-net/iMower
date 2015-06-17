@@ -59,7 +59,7 @@ def graph_search(frontier, problem, heuristic=None, check_frontier=False):
         for action in problem.actions(node['state']):
             child = child_node(problem, node, action, heuristic)
 
-            if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else True)):
+            if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
                 frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
 
         problem._expanded += 1
