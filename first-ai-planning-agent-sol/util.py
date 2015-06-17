@@ -1,5 +1,4 @@
 import heapq
-import numpy as np
 
 
 def manhattan_distance(xy1, xy2):
@@ -8,11 +7,7 @@ def manhattan_distance(xy1, xy2):
 
 
 def state_elem_pos(state, elem, grid_size):
-    pos = np.where(np.reshape(list(state[1]), grid_size) == elem)
-    return zip(pos[0], pos[1])
-
-#def state_elem_pos(state, elem, grid_size):
-#    return [(i, j) for i in range(grid_size[0]) for j in range(grid_size[1]) if state[1][i*grid_size[1]+j] == elem]
+    return [(i, j) for i in range(grid_size[0]) for j in range(grid_size[1]) if state[1][i*grid_size[1]+j] == elem]
 
 
 class Stack:

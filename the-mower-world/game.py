@@ -208,6 +208,7 @@ def main():
     parser.add_argument('--heuristic', default='null_heuristic')
     parser.add_argument('--world', default='1')
     parser.add_argument('--solution', action='store_const', const=True, default=False)
+    parser.add_argument('--check_frontier', action='store_const', const=True, default=False)
     parser.add_argument('--earth_mode', action='store_const', const=True, default=False)
 
     args = parser.parse_args()
@@ -236,7 +237,7 @@ def main():
         search_fun = getattr(search_functions_sol if args.solution else search_functions_dev, args.agent)
         heur = getattr(search_functions_sol if args.solution else search_functions_dev, args.heuristic)
         prob = sa.MowSearchProblem(gameState)
-        agent = sa.SearchAgent(problem=prob, search_fun=search_fun, heuristic=heur)
+        agent = sa.SearchAgent(problem=prob, search_fun=search_fun, heuristic=heur, check_frontier=args.check_frontier)
         agent.plan()
 
     continuer = 1

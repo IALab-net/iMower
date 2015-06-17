@@ -18,6 +18,12 @@ def max_manhattan_distance_heuristic_H(state, problem):
     return max(dist_to_H) if len(dist_to_H) else 0
 
 
+def min_manhattan_distance_heuristic_H(state, problem):
+    left_H = util.state_elem_pos(state, 'H', problem.grid_size)
+    dist_to_H = [util.manhattan_distance(state[0], xy) for xy in left_H]
+    return min(dist_to_H) if len(dist_to_H) else 0
+
+
 def child_node(problem, parent, action, heuristic):
     new_state = problem.result(parent['state'], action)
     path = parent['path'][:] + [action]
@@ -33,7 +39,7 @@ def solution(node):
     return node['path']
 
 
-def graph_search(frontier, problem, heuristic=None):
+def graph_search(frontier, problem, heuristic=None, check_frontier=False):
     node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
 
     if problem.goal_test(node['state']):
@@ -53,7 +59,7 @@ def graph_search(frontier, problem, heuristic=None):
         for action in problem.actions(node['state']):
             child = child_node(problem, node, action, heuristic)
 
-            if not ((child['state'] in explored) or frontier.isin(child['state'], fun=lambda x: x['state'])):
+            if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else True)):
                 frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
 
         problem._expanded += 1
@@ -61,21 +67,21 @@ def graph_search(frontier, problem, heuristic=None):
     raise Exception("Frontier is empty")
 
 
-def depth_first_search(problem, heuristic=None):
+def depth_first_search(problem, heuristic=None, check_frontier=False):
     frontier = util.Stack()
-    return graph_search(frontier, problem, None)
+    return graph_search(frontier, problem, None, check_frontier)
 
 
-def breadth_first_search(problem, heuristic=None):
+def breadth_first_search(problem, heuristic=None, check_frontier=False):
     frontier = util.Queue()
-    return graph_search(frontier, problem, None)
+    return graph_search(frontier, problem, None, check_frontier)
 
 
-def uniform_cost_search(problem, heuristic=None):
+def uniform_cost_search(problem, heuristic=None, check_frontier=False):
     frontier = util.PriorityQueue()
-    return graph_search(frontier, problem, None)
+    return graph_search(frontier, problem, None, check_frontier)
 
 
-def a_star_search(problem, heuristic):
+def a_star_search(problem, heuristic, check_frontier=False):
     frontier = util.PriorityQueue()
-    return graph_search(frontier, problem, heuristic)
+    return graph_search(frontier, problem, heuristic, check_frontier)

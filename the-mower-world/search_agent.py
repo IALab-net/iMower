@@ -78,15 +78,16 @@ class MowSearchProblem():
 
 
 class SearchAgent:
-    def __init__(self, problem, search_fun, heuristic=lambda state, problem=None: 0):
+    def __init__(self, problem, search_fun, heuristic=lambda state, problem=None: 0, check_frontier=False):
         self._problem = problem
         self._search_fun = search_fun
         self._heuristic = heuristic
+        self._check_frontier = check_frontier
         self._action_index = 0
 
     def plan(self):
         start_time = time.time()
-        self._actions = self._search_fun(self._problem, self._heuristic)
+        self._actions = self._search_fun(self._problem, self._heuristic, self._check_frontier)
         total_cost = self._problem.get_path_cost(self._actions)
 
         print('Path found with total cost of %d in %.1f seconds' % (total_cost, time.time() - start_time))

@@ -6,6 +6,10 @@ def manhattan_distance(xy1, xy2):
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
 
+def state_elem_pos(state, elem, grid_size):
+    return [(i, j) for i in range(grid_size[0]) for j in range(grid_size[1]) if state[1][i*grid_size[1]+j] == elem]
+
+
 class Stack:
     "A container with a last-in-first-out (LIFO) queuing policy."
     def __init__(self):
