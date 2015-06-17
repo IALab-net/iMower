@@ -63,7 +63,7 @@ def elem_rules_trans(e, earth_mode):
 
 
 class GameState():
-    def __init__(self, path=None, grid=None, mower_pos=None, earth_mode=False, under_mower='L', nb_propellers=3, bonus_mow=10, living_penalty=1, earth_mow_penalty=5, lose_propeller=200, score=0, penalties=None):
+    def __init__(self, path=None, grid=None, mower_pos=None, earth_mode=False, under_mower='L', nb_propellers=3, bonus_mow=10, living_penalty=1, earth_mow_penalty=5, lose_propeller=500, score=0, penalties=None):
         if grid is None:
             grid = load_world_settings(path)
             self._mower_pos = where_element(grid, 'M')

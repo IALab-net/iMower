@@ -12,6 +12,9 @@ sudo chmod +x /home/vagrant/Desktop/play-iMower.sh
 
 #Setup the Mower Environment
 sudo apt-get install -y git python-pip ipython ipython-notebook python-pygame
+cd /vagrant
+nohup ipython notebook --ip=0.0.0.0 &
+cd -
 git clone https://github.com/tounnas/iMower.git
 mv iMower/first-ai-planning-agent-dev /vagrant
 

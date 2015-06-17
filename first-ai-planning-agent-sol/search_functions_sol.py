@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 import util
 
 
@@ -9,6 +10,12 @@ def null_heuristic(state, problem=None):
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
+
+
+def max_manhattan_distance_heuristic_H(state, problem):
+    left_H = util.state_elem_pos(state, 'H', problem.grid_size)
+    dist_to_H = [util.manhattan_distance(state[0], xy) for xy in left_H]
+    return max(dist_to_H) if len(dist_to_H) else 0
 
 
 def child_node(problem, parent, action, heuristic):

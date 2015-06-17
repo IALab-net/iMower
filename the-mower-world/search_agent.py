@@ -6,6 +6,7 @@ from game import move, is_in_grid, elem_rules_trans
 class MowSearchProblem():
     def __init__(self, starting_gameState):
         self._grid = starting_gameState._grid
+        self.grid_size = self._grid.shape
         elems_state = self._grid.tostring()
         self._e_ij = lambda i, j: i * self._grid.shape[1] + j
         self._initial_state = (starting_gameState._mower_pos, elems_state, starting_gameState._nb_propellers)
@@ -57,12 +58,13 @@ class MowSearchProblem():
         ind_next_e = self._e_ij(*next_pos)
         next_e = elems_state[ind_next_e]
         if next_e == 'R':
-            if nb_propellers >= 1:
+            if nb_propellers > 1:
                 cost += self._penalties['lose_propeller']
             else:
                 return 999999
-        if next_e == 'L':
+        if (next_e == 'L') and self._earth_mode:
             cost += self._penalties['mow_to_earth']
+
         cost += self._penalties['living']
         return cost
 
