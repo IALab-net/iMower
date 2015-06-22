@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>iMower</title>
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+
+    <link rel="stylesheet" type="text/css" href="css/theme/devoxx.css" id="theme">
+
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/solarized_light.css">
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+        pre.small-code {
+            font-size: 0.36em;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="reveal center">
+    <div class="slides">
+        <section class="front-page" data-background-image="images/devoxxBG2.png">
+            <center><h1>iMower</h1></center>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <h2>Overview</h2>
+            <ol>
+                <li>Artificial Intelligence: Introduction</li>
+                <li>Problem Definition</li>
+                <li>Searching for Solutions</li>
+                <li>Uninformed Search Strategies</li>
+                <li>Informed Search Strategies</li>
+                <li>Artificial Intelligence: Next Steps</li>
+            </ol>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <h2 class="alone">Artificial Intelligence: Introduction</h2>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <section>
+                <h3>Intelligent Agents: Perception Action Cycle</h3>
+                <div class="center">
+                    <img height="500px" src="images/Agent_Perception_Action_Cycle.png">
+                </div>
+            </section>
+            <section>
+                <h3>Applications of AI</h3>
+                <h4>Finance</h4>
+                <div class="center">
+                    <img height="500px" src="images/Trading_Agent.png">
+                </div>
+            </section>
+            <section>
+                <h3>Applications of AI</h3>
+                <h4>Robotics</h4>
+                <div class="center">
+                    <img height="500px" src="images/Robot_Agent.png">
+            </section>
+            <section>
+                <h3>Applications of AI</h3>
+                <h4>Games</h4>
+                <div class="center">
+                    <img height="500px" src="images/Game_Agent.png">
+                </div>
+            </section>
+            <section>
+                <h3>Applications of AI</h3>
+                <h4>Medicine</h4>
+                <div class="center">
+                    <img height="500px" src="images/Diagnostic_Agent.png">
+                </div>
+            </section>
+            <section>
+                <h3>Applications of AI</h3>
+                <h4>Web</h4>
+                <div class="center">
+                    <img height="500px" src="images/Crawler_Agent.png">
+                </div>
+            </section>
+        </section>
+        <section>
+            <h2 class="alone">Problem Definition</h2>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <section>
+                <h3>What Problem-Solving involves</h3>
+                <li>Goal Formulation</li>
+                <li>Problem Formulation: What actions and states to consider, given a goal</li>
+                <li>Search algorithm: Takes a problem as input and returns a solution in the form of an action sequence</li>
+            </section>
+            <section>
+                <h3>What is a Problem ?</h3>
+                <div>
+                    Defined as a single Data Structure:
+                </div>
+                <div class="half">
+                    <li>Initial State</li>
+                    <li>ACTIONS(s) -> {A1, A2, ...}</li>
+                    <li>RESULT(s,a) -> s'</li>
+                </div>
+                <div class="half">
+                    <li>GOAL_TEST(s) -> True / False</li>
+                    <li>PATH_COST(path) -> n</li>
+                    <li>STEP_COST(path) -> n</li>
+                </div>
+                <div>
+                    Example:
+                </div>
+                <div class="center">
+                    <img height="400px" src="images/Map_Romania.png">
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2 class="alone">Searching for Solutions</h2>
+                <aside class="notes">
+                    <!-- Put our comments her -->
+                </aside>
+            </section>
+            <section>
+                <p>All search algorithms share the same basic structure.</p>
+                <p>They vary primarily according to how they choose which state to expand next: The search strategy.</p>
+            </section>
+            <section>
+                <h3>Structure for search algorithms</h3>
+                For each node of the tree, we have a structure that contains four components:
+                <li>node.STATE: the state to which the node corresponds</li>
+                <li>node.ACTION: the action that was applied to the parent to generate the node</li>
+                <li>node.PATH-COST: the cost of the path from the initial state</li>
+                <li>node.PARENT: the node in the search tree that generated this node</li>
+            </section>
+            <section>
+                <h3>Tree Search</h3>
+                <pre class="scala"><code class="hljs">
+    function TREESEARCH(problem):
+        frontier = {}
+        if GOALTEST(initial_state):
+            return initial_state
+        frontier.push(initial_state)
+        while frontier is not empty:
+            node = frontier.pop()
+            if GOALTEST(node.STATE):
+                return path
+            for action in ACTIONS(node.STATE):
+                child_node = RESULT(node.STATE, action)
+                frontier.push(child_node)
+                </code></pre>
+                Problem: Can explore a node that has already been explored
+                Solution: Remember the explored nodes
+            </section>
+            <section>
+                <h3>Graph Search</h3>
+                <pre class="scala"><code class="hljs">
+    function GRAPHSEARCH(problem):
+        frontier = {}
+        explored = {}
+        if GOALTEST(initial_state):
+            return initial_state
+        frontier.push(initial_state)
+        while frontier is not empty:
+            node = frontier.pop()
+            if GOALTEST(node.STATE):
+                return path
+            explored.add(node)
+            for action in ACTIONS(node.STATE):
+                child_node = RESULT(node.STATE, action)
+                if child_node not in explored:
+                    frontier.push(child_node)
+                </code></pre>
+            </section>
+            <section>
+                <h3>Measuring Problem-Solving Performance</h3>
+                Four ways to evaluate a search algorithm's performance
+                <li>Completeness</li>
+                <li>Optimality</li>
+                <li>Time Complexity</li>
+                <li>Space Complexity</li>
+            </section>
+        </section>
+        <section>
+            <h2 class="alone">Uninformed Search Strategies</h2>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <h3>Depth-First Search</h3>
+            <section>
+                <div class="center">
+                    <blockquote>
+                        Longest Path First
+                    </blockquote>
+                    <img src="images/DFS_Illu.png">
+                    <p>Always expands the deepest node in the current frontier</p>
+                    <p>Frontier: Last In First Out (LIFO) queue</p>       
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.001.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.002.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.003.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.004.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.005.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.006.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.007.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/DFS.008.png">
+                </div>
+            </section>
+            <section>
+                <div class="half">
+                    Pros
+                    <p>
+                        <li>Low Time Complexity</li>
+                        <li>Low (linear) Space Complexity</li>
+                    </p>
+                </div>
+                <div class="half">
+                    Cons
+                    <p>
+                        <li>Not Complete</li>
+                        <li>Not Optimal</li>
+                    </p>
+                </div>
+            </section>
+        </section>
+        <section>
+            <h3>Breadth-First Search</h3>
+            <section>
+                <div class="center">
+                    <blockquote>
+                        Shortest Path First
+                    </blockquote>
+                    <img src="images/BFS_Illu.png">
+                    <p>Always expands the shallowest node in the current frontier</p>
+                    <p>Frontier: First In First Out (FIFO) queue</p>
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.001.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.002.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.003.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.004.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.005.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.006.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/BFS.007.png">
+                </div>
+            </section>
+            <section>
+                <div class="half">
+                    Pros
+                    <p>
+                        <li>Complete</li>
+                        <li>Optimal</li>
+                    </p>
+                </div>
+                <div class="half">
+                    Cons
+                    <p>
+                        <li>Very High Time Complexity</li>
+                        <li>Very High Space Complexity</li>
+                    </p>
+                </div>
+            </section>
+        </section>
+        <section>
+            <h3>Uniform-Cost Search</h3>
+            <section>
+                <div class="center">
+                    <blockquote>
+                        Cheapest Path First
+                    </blockquote>
+                    <img src="images/UCS_Illu.png">
+                    <p>Always expands the cheapest node in the current frontier</p>
+                    <p>Frontier: Priority queue</p>
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.001.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.002.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.003.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.004.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.005.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/UCS.006.png">
+                </div>
+            </section>
+            <section>
+                <div class="half">
+                    Pros
+                    <p>
+                        <li>Complete</li>
+                        <li>Optimal</li>
+                    </p>
+                </div>
+                <div class="half">
+                    Cons
+                    <p>
+                        <li>High Time Complexity</li>
+                        <li>High Space Complexity</li>
+                        <li>Can explore a lot of small steps before exploring paths involving large and perhaps useful steps</li> 
+                    </p>
+                </div>
+            </section>
+        </section>
+        <section>
+            <h2 class="alone">Informed Search Strategies</h2>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section>
+            <h3>Definition</h3>
+            <p>Uses <span class="bold">problem-specific knowledge</span> beyond the definition of the problem. Can find solutions more efficiently than can an uninformed strategy.</p>
+            <p>A node is selected for expansion based on an evaluation function:</p>
+            <div class="center"><blockquote><span class="bold">f(n) = g(n) + h(n)</span></blockquote></div>
+            <p>
+                <li>g(n) = Cost of the explored path (like in Uniform Cost Search)</li>
+                <li>h(n) = Estimated cost of the cheapest path from the state at the actual node to a goal state</li>
+            </p>
+            <img src="images/Heuristic_Representation.png">
+        </section>
+        <section>
+            <h3>A* Search</h3>
+            <section>
+                <div class="center">
+                    <blockquote>
+                        Cheapest Expected Path First
+                    </blockquote>
+                    <img src="images/A_Star_Illu.png">
+                    <p>Always expands the node with the cheapest expected path cost in the current frontier</p>
+                    <p>Frontier: Priority queue</p>
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/A_Star.001.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/A_Star.002.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/A_Star.003.png">
+                </div>
+            </section>
+            <section>
+                <div class="center">
+                    <img src="images/A_Star.004.png">
+                </div>
+            </section>
+            <section>
+                <h3>Conditions for Optimality</h3>
+                <div class="half">
+                    Admissibility
+                    <p>Never overestimates the cost to reach the goal</p>
+                </div>
+                <div class="half">
+                    Consistency
+                    <p>Never overestimates the step cost from a state to a successor</p>
+                </div>
+            </section>
+        </section>
+        <section>
+            <h2 class="alone">Artificial Intelligence: Next Steps</h2>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+        <section class="back-page" data-background-image="images/devoxxBG2.png">
+            <h1>Merci</h1>
+             <br>
+             Sources du projet : <a href = "https://github.com/tounnas/iMower">https://github.com/tounnas/iMower</a>
+            <aside class="notes">
+                <!-- Put our comments her -->
+            </aside>
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        backgroundTransition:'slide',
+        transition: 'slide', // none/fade/slide/convex/concave/zoom,
+
+        math: {
+            mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'plugin/math/math.js', async: true },
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, condition: function () {
+                return !!document.querySelector('pre code');
+            }, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+    Reveal.addEventListener('slidechanged', function (event) {
+        if (event.indexh == 0) {
+            document.querySelector('.reveal').classList.add('slide0');
+        } else {
+            document.querySelector('.reveal').classList.remove('slide0');
+        }
+
+    });
+
+
+    if (Reveal.getState().indexh == 0) {
+        document.querySelector('.reveal').classList.add('slide0');
+    }
+
+</script>
+
+</body>
+</html>
