@@ -83,20 +83,18 @@ class SearchAgent:
         self._search_fun = search_fun
         self._heuristic = heuristic
         self._check_frontier = check_frontier
-        self._action_index = 0
 
     def plan(self):
         start_time = time.time()
         self._actions = self._search_fun(self._problem, self._heuristic, self._check_frontier)
+        self._actions_iterator = (a for a in self._actions)
         total_cost = self._problem.get_path_cost(self._actions)
 
         print('Path found with total cost of %d in %.1f seconds' % (total_cost, time.time() - start_time))
         print('Search nodes expanded: %d' % self._problem._expanded)
 
     def get_action(self):
-        i = self._action_index
-        self._action_index += 1
-        if i < len(self._actions):
-            return self._actions[i]
-        else:
+        try:
+            return self._actions_iterator.next()
+        except:
             return "STOP"
