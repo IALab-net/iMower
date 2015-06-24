@@ -7,6 +7,7 @@ def manhattan_distance(xy1, xy2):
 
 
 def state_elem_pos(state, elem, grid_size):
+    "Returns the Manhattan distance between the given state and a given element in the grid"
     return [(i, j) for i in range(grid_size[0]) for j in range(grid_size[1]) if state[1][i*grid_size[1]+j] == elem]
 
 
