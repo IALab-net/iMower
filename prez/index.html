@@ -47,6 +47,7 @@
             <ol>
                 <li>Artificial Intelligence: Introduction</li>
                 <li>Problem Definition</li>
+                <li>The world environment</li>
                 <li>Searching for Solutions</li>
                 <li>Uninformed Search Strategies</li>
                 <li>Informed Search Strategies</li>
@@ -138,6 +139,38 @@
                 <div class="center">
                     <img height="400px" src="images/Map_Romania.png">
                 </div>
+            </section>
+        </section>
+        <section>
+            <h2>The Mower world</h2>
+        </section>
+        <section>
+            <section>
+                <h3>World definition</h3>
+                <div class="half">
+                </div>
+                <div class="half">
+                    <p>You are provided with a world for your mower.</p>
+                    <p>You have to mow all the high grass.</p>
+                    <p>If you go over the rocks, you lose a propeller, and therefore gain less points when you mow the grass.</p>
+                    <p>If you lose all your propellers, the game is over.</p>
+                    <p>The goal is to implement a graph search algorithm wich will learn a way to optimally mow the grass, maximizing your score.<p>
+                </div>
+            </section>
+            <section>
+                <h3>Let's Play !</h3>
+                <p>
+                    Configurations to set up the Virtual Machine
+                    <li>Create a folder, let's say iMower, and paste the Vagrantfile in it</li>
+                    <li>Then, run the vagrant up shell command in that folder</li>
+                    <li>When you want to stop the VM, use the vagrant halt command</li>
+                </p>
+                <p>
+                    Load the world and test it
+                    <li>In the command shell, go to the iMower/first-ai-planning-agent directory</li>
+                    <li>Run the following command to load the world and play with it: python game.py</li>
+                    <li>You have six worlds to play with. To load a new world, run the following line: python game.py --world world-2.txt</li>
+                </p>
             </section>
         </section>
         <section>
@@ -266,10 +299,49 @@
                 </div>
             </section>
             <section>
-                <h4>Configurations to set up the Virtual Machine</h4>
-                <p>Create a folder, let's say iMower, and paste the Vagrantfile in it</p>
-                <p>Then, run the vagrant up shell command in that folder</p>
-                <p>When you want to stop the VM, use the vagrant halt command</p>
+                <h4>Let's Code !</h4>
+                <p>
+                    <li>Edit search_functions.py and implement both graph_search and depth_first_search methods</li>
+                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent depth-first-search-agent</li>
+                    <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
+                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent depth-first-search-agent --solution</li>
+                </p>
+            </section>
+            <section>
+                <h4>Solution</h3>
+                <pre class="python"><code class="hljs">
+    def graph_search(frontier, problem, heuristic=None, check_frontier=False):
+        node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
+
+        if problem.goal_test(node['state']):
+            return solution(node)
+
+        frontier.push(node, node['path_cost'])
+        explored = set()
+
+        while not frontier.isEmpty():
+            node = frontier.pop()
+
+            if problem.goal_test(node['state']):
+                return solution(node)
+
+            explored.add(node['state'])
+
+            for action in problem.actions(node['state']):
+                child = child_node(problem, node, action, heuristic)
+
+                if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
+                    frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
+
+            problem._expanded += 1
+
+        raise Exception("Frontier is empty")
+                </code></pre>
+                <pre class="python"><code class="hljs">
+    def depth_first_search(problem, heuristic=None, check_frontier=False):
+        frontier = util.Stack()
+        return graph_search(frontier, problem, None, check_frontier)
+                </code></pre>
             </section>
             <section>
                 <div class="half">
@@ -395,6 +467,23 @@
                 </div>
             </section>
             <section>
+                <h4>Let's Code !</h4>
+                <p>
+                    <li>Edit search_functions.py and implement the uniform_cost_search method</li>
+                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent uniform-cost-search-agent</li>
+                    <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
+                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent uniform-cost-search-agent --solution</li>
+                </p>
+            </section>
+            <section>
+                <h4>Solution</h3>
+                <pre class="python"><code class="hljs">
+    def uniform_cost_search(problem, heuristic=None, check_frontier=False):
+        frontier = util.PriorityQueue()
+        return graph_search(frontier, problem, None, check_frontier)
+                </code></pre>
+            </section>
+            <section>
                 <div class="half">
                     Pros
                     <p>
@@ -471,6 +560,23 @@
                     Consistency
                     <p>Never overestimates the step cost from a state to a successor</p>
                 </div>
+            </section>
+            <section>
+                <h4>Let's Code !</h4>
+                <p>
+                    <li>Edit search_functions.py and implement the a_star_search method</li>
+                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent a-star-search-agent</li>
+                    <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
+                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent a-star-search-agent --solution</li>
+                </p>
+            </section>
+            <section>
+                <h4>Solution:</h3>
+                <pre class="python"><code class="hljs">
+    def a_star_search(problem, heuristic, check_frontier=False):
+        frontier = util.PriorityQueue()
+        return graph_search(frontier, problem, heuristic, check_frontier)
+                </code></pre>
             </section>
         </section>
         <section>
