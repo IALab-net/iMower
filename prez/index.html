@@ -45,9 +45,9 @@
         <section>
             <h2>Overview</h2>
             <ol>
+                <li>The world environment</li>
                 <li>Artificial Intelligence: Introduction</li>
                 <li>Problem Definition</li>
-                <li>The world environment</li>
                 <li>Searching for Solutions</li>
                 <li>Uninformed Search Strategies</li>
                 <li>Informed Search Strategies</li>
@@ -56,6 +56,37 @@
             <aside class="notes">
                 <!-- Put our comments her -->
             </aside>
+        </section>
+        <section>
+            <h2>The Mower world</h2>
+        </section>
+        <section>
+            <section>
+                <h3>World definition</h3>
+                <div class="half">
+                </div>
+                <div class="half">
+                    <p>You are provided with a world for your mower.</p>
+                    <p>You have to mow all the high grass.</p>
+                    <p>If you go over the rocks, you lose a propeller, and get a malus.</p>
+                    <p>If you lose all your propellers, the game is over.</p>
+                    <p>The goal is to implement a search algorithm wich will learn a way to optimally mow the grass, maximizing your score.<p>
+                </div>
+            </section>
+            <section>
+                <h3>Let's Play !</h3>
+                <p>
+                    Configurations to set up the Virtual Machine
+                    <li>Create a folder, let's say iMower, and paste the Vagrantfile in it</li>
+                    <li>Then, run the <i>vagrant up</i> shell command in that folder</li>
+                    <li>When you want to stop the VM, use the <i>vagrant halt</i> command</li>
+                </p>
+                <p>
+                    Load the world and test it in the VM terminal
+                    <li>Run the following command and start playing: <i>python ~/iMower/the-mower-world/game.py</i></li>
+                    <li>You have several worlds to play with. To load a new world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2</i></li>
+                </p>
+            </section>
         </section>
         <section>
             <h2 class="alone">Artificial Intelligence: Introduction</h2>
@@ -140,37 +171,8 @@
                     <img height="400px" src="images/Map_Romania.png">
                 </div>
             </section>
-        </section>
-        <section>
-            <h2>The Mower world</h2>
-        </section>
-        <section>
             <section>
-                <h3>World definition</h3>
-                <div class="half">
-                </div>
-                <div class="half">
-                    <p>You are provided with a world for your mower.</p>
-                    <p>You have to mow all the high grass.</p>
-                    <p>If you go over the rocks, you lose a propeller, and therefore gain less points when you mow the grass.</p>
-                    <p>If you lose all your propellers, the game is over.</p>
-                    <p>The goal is to implement a graph search algorithm wich will learn a way to optimally mow the grass, maximizing your score.<p>
-                </div>
-            </section>
-            <section>
-                <h3>Let's Play !</h3>
-                <p>
-                    Configurations to set up the Virtual Machine
-                    <li>Create a folder, let's say iMower, and paste the Vagrantfile in it</li>
-                    <li>Then, run the vagrant up shell command in that folder</li>
-                    <li>When you want to stop the VM, use the vagrant halt command</li>
-                </p>
-                <p>
-                    Load the world and test it
-                    <li>In the command shell, go to the iMower/first-ai-planning-agent directory</li>
-                    <li>Run the following command to load the world and play with it: python game.py</li>
-                    <li>You have six worlds to play with. To load a new world, run the following line: python game.py --world world-2.txt</li>
-                </p>
+                <h3>The Mower Problem</h3>
             </section>
         </section>
         <section>
@@ -187,10 +189,10 @@
             <section>
                 <h3>Structure for search algorithms</h3>
                 For each node of the tree, we have a structure that contains four components:
-                <li>node.STATE: the state to which the node corresponds</li>
-                <li>node.ACTION: the action that was applied to the parent to generate the node</li>
-                <li>node.PATH-COST: the cost of the path from the initial state</li>
-                <li>node.PARENT: the node in the search tree that generated this node</li>
+                <li><i>node.STATE</i>: the state to which the node corresponds</li>
+                <li><i>node.ACTION</i>: the action that was applied to the parent to generate the node</li>
+                <li><i>node.PATH-COST</i>: the cost of the path from the initial state</li>
+                <li><i>node.PARENT</i>: the node in the search tree that generated this node</li>
             </section>
             <section>
                 <h3>Tree Search</h3>
@@ -302,9 +304,9 @@
                 <h4>Let's Code !</h4>
                 <p>
                     <li>Edit search_functions.py and implement both graph_search and depth_first_search methods</li>
-                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent depth-first-search-agent</li>
+                    <li>To test your implementation on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent depth_first_search</i></li>
                     <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
-                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent depth-first-search-agent --solution</li>
+                    <li>If you want to check the solution applied on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent depth_first_search --solution</i></li>
                 </p>
             </section>
             <section>
@@ -470,9 +472,9 @@
                 <h4>Let's Code !</h4>
                 <p>
                     <li>Edit search_functions.py and implement the uniform_cost_search method</li>
-                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent uniform-cost-search-agent</li>
+                    <li>To test your implementation on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent uniform_cost_search</i></li>
                     <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
-                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent uniform-cost-search-agent --solution</li>
+                    <li>If you want to check the solution applied on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent uniform_cost_search --solution</i></li>
                 </p>
             </section>
             <section>
@@ -565,9 +567,9 @@
                 <h4>Let's Code !</h4>
                 <p>
                     <li>Edit search_functions.py and implement the a_star_search method</li>
-                    <li>To test your implementation on a world, run the following line: python game.py --world world-2.txt --agent a-star-search-agent</li>
+                    <li>To test your implementation on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search</i></li>
                     <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
-                    <li>If you want to check the solution applied on a world, run the following line: python game.py --world world-2.txt --agent a-star-search-agent --solution</li>
+                    <li>If you want to check the solution applied on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search --solution</i></li>
                 </p>
             </section>
             <section>
@@ -587,20 +589,16 @@
         </section>
         <section>
             <h3>Reinforcement Learning</h3>
-            <div class="half">
-                <img src="images/pac_man_strategy.png">
-            </div>
-            <div class="half">
+            <div class="center">
                 <p>Program an agent to adapt to a changing environment</p>
+                <img src="images/pac_man_strategy.png">
             </div>
         </section>
         <section>
             <h3>Robotics</h3>
-            <div class="half">
-                <img src="images/robot.jpg">
-            </div>
-            <div class="half">
-                <p>Construction of a Mower Robot (not a real mower)</p>
+            <div class="center">
+                <p>Construction of a Mower Robot</p>
+                <img src="images/arduino-robots.png">
             </div>
         </section>
         <section class="back-page" data-background-image="images/devoxxBG2.png">
