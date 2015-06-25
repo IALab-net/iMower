@@ -581,21 +581,22 @@
             <section>
                 <h4>Conditions for Optimality</h4>
                 <div class="half">
-                    <b>Admissibility</b>
+                    <b>Tree Search: Admissibility</b>
                     <p>Never overestimates the cost to reach the goal</p>
                 </div>
                 <div class="half">
-                    <b>Consistency</b>
+                    <b>Graph Search: Consistency</b>
                     <p>Never overestimates the step cost from a state to a successor</p>
                 </div>
+                <p><i>NB: Consistency => Admissibility</i></p>
             </section>
             <section>
                 <h4>Let's Code !</h4>
                 <p>
-                    <li>Edit search_functions.py and implement the a_star_search method</li>
-                    <li>To test your implementation on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search</i></li>
+                    <li>Edit search_functions.py and implement the a_star_search method and your heuristic method</li>
+                    <li>To test your implementation on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search --heuristic myHeuristic</i></li>
                     <li>You can check the Python_Helper.py document if you are not familiar with Python</li>
-                    <li>If you want to check the solution applied on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search --solution</i></li>
+                    <li>If you want to check the solution applied on a world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2 --agent a_star_search --heuristic max_manhattan_distance_heuristic_H --solution</i></li>
                 </p>
             </section>
             <section>
@@ -629,9 +630,16 @@
         </section>
         <section class="back-page" data-background-image="images/devoxxBG2.png">
             <h1>Thank You</h1>
-            <li> Project repository : <a href = "https://github.com/tounnas/iMower">https://github.com/tounnas/iMower</a></li>
-            <li>MOOC on Artificial Intelligence (Edx) : <a href = "https://www.edx.org/course/artificial-intelligence-uc-berkeleyx-cs188-1x"> https://www.edx.org/course/artificial-intelligence-uc-berkeleyx-cs188-1x</a></li>
-            <li>Arificial Intelligence Reference Book: <a href = "http://aima.cs.berkeley.edu/"> http://aima.cs.berkeley.edu/</a></li>
+            <p><u>Project repository</u>: <a href = "https://github.com/tounnas/iMower">https://github.com/tounnas/iMower</a></p>
+            <p>
+                <u>MOOCs on Artificial Intelligence</u>: 
+                <li>Edx: <a href = "https://www.edx.org/course/artificial-intelligence-uc-berkeleyx-cs188-1x"> https://www.edx.org/course/artificial-intelligence-uc-berkeleyx-cs188-1x</a></li>
+                <li>Udacity: <a href = "https://www.udacity.com/course/viewer#!/c-cs271"> https://www.udacity.com/course/viewer#!/c-cs271</a></li>
+            </p>
+            <p>
+                <u>Arificial Intelligence Books</u>: 
+                <li><a href = "http://aima.cs.berkeley.edu/"> http://aima.cs.berkeley.edu/</a></li>
+            </p>
             <aside class="notes">
                 <!-- Put our comments her -->
             </aside>
