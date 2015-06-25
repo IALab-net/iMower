@@ -28,9 +28,9 @@ When you want to stop the VM, use the `vagrant halt` command.
 
 You can have access, on your host machine, to the differents sub-projects presentations/tutorials at the following links
 
-	* <strong>iM-0 & iM-1</strong> : http://localhost:4567/im-planning/
-	* <strong>iM-2</strong> :
-	* <strong>iM-3</strong> :
+* <strong>iM-0 & iM-1</strong> : http://localhost:4567/im-planning/
+* <strong>iM-2</strong> :
+* <strong>iM-3</strong> :
 
 ###Infos
 
