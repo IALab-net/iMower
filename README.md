@@ -8,9 +8,9 @@ Sub-Projects:
 * <strong>iM-1 / First AI : Mow Planning</strong> : 
     Implementation of a first simple AI
 * <strong>iM-2 / Learn How to Mow</strong> : 
-    Use Reinforcement Learning to learn mowing the lawn
+    Reinforcement Learning to learn how to mow the lawn
 * <strong>iM-3 / Mower Robot</strong> : 
-    Construction of a Mower Robot (not a real mower)
+    Arduino Mower Robot and Bayesian Networks
 
 ##Installation
 
