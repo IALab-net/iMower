@@ -14,7 +14,7 @@ echo -e "#!/bin/sh\ncd ~/iMower/the-mower-world\npython game.py" >> /home/vagran
 sudo chmod +x /home/vagrant/Desktop/play-iMower.sh
 
 #Setup the Mower Environment
-sudo apt-get install -y git python-pip ipython ipython-notebook python-pygame
+sudo apt-get install -y vim git python-pip ipython ipython-notebook python-pygame
 cd /vagrant
 nohup ipython notebook --ip=0.0.0.0 &
 cd -
