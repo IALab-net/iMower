@@ -63,7 +63,7 @@ def elem_rules_trans(e, earth_mode):
 
 
 class GameState():
-    def __init__(self, path=None, grid=None, mower_pos=None, earth_mode=False, under_mower='L', nb_propellers=3, bonus_mow=10, living_penalty=1, earth_mow_penalty=5, lose_propeller=500, score=0, penalties=None):
+    def __init__(self, path=None, grid=None, mower_pos=None, earth_mode=False, under_mower='L', nb_propellers=3, bonus_mow=500, living_penalty=1, earth_mow_penalty=200, lose_propeller=10000, score=0, penalties=None):
         if grid is None:
             grid = load_world_settings(path)
             self._mower_pos = where_element(grid, 'M')
@@ -166,21 +166,21 @@ def text_infos(gameState, window, font):
     pygame.display.update()
 
 
-def game_over(window):
+def game_over(window, window_size):
     font = pygame.font.SysFont("monospace", 70)
     text = font.render("GAME OVER", True, (255, 0, 0))
-    window.blit(text, (150, 250))
+    window.blit(text, (max(0, window_size[0]/2. - 150), max(0, window_size[1]/2 - 70)))
     pygame.display.update()
 
 
-def you_win(window):
+def you_win(window, window_size):
     font = pygame.font.SysFont("monospace", 70)
     text = font.render("YOU WIN", True, (255, 0, 0))
-    window.blit(text, (150, 250))
+    window.blit(text, (max(0, window_size[0]/2. - 150), max(0, window_size[1]/2 - 70)))
     pygame.display.update()
 
 
-def draw_world(window, blocks, block_size, gameState, font):
+def draw_world(window, blocks, block_size, gameState, font, window_size):
     grid_size = gameState.get_grid_size()
     for i in range(grid_size[0]):
         for j in range(grid_size[1]):
@@ -197,9 +197,9 @@ def draw_world(window, blocks, block_size, gameState, font):
     text_infos(gameState, window, font)
 
     if gameState.is_game_over():
-        game_over(window)
+        game_over(window, window_size)
     if gameState.is_win():
-        you_win(window)
+        you_win(window, window_size)
 
 
 def main():
@@ -210,6 +210,7 @@ def main():
     parser.add_argument('--solution', action='store_const', const=True, default=False)
     parser.add_argument('--check_frontier', action='store_const', const=True, default=False)
     parser.add_argument('--earth_mode', action='store_const', const=True, default=False)
+    parser.add_argument('--edge_size', default=700, type=int)
 
     args = parser.parse_args()
 
@@ -220,7 +221,7 @@ def main():
     grid_size = gameState.get_grid_size()
     ratio = grid_size[0]*1./grid_size[1]
 
-    xw = 200 if args.world == 'bonus' else 700
+    xw = 200 if args.world == 'bonus' else args.edge_size
     window_size = (int(xw/ratio), xw)
     actions_mapping = {K_DOWN: 'DOWN', K_UP: 'UP', K_RIGHT: 'RIGHT', K_LEFT: 'LEFT'}
 
@@ -231,7 +232,7 @@ def main():
     window = pygame.display.set_mode(window_size)
     blocks = init_blocks(block_size)
 
-    draw_world(window, blocks, block_size, gameState, font)
+    draw_world(window, blocks, block_size, gameState, font, window_size)
 
     if args.agent is not None:
         search_fun = getattr(search_functions_sol if args.solution else search_functions_dev, args.agent)
@@ -259,7 +260,7 @@ def main():
 
             if not (gameState.is_win() or gameState.is_game_over()):
                 gameState = gameState.execute_action(action)
-            draw_world(window, blocks, block_size, gameState, font)
+            draw_world(window, blocks, block_size, gameState, font, window_size)
             start = time.time()
 
 
