@@ -64,6 +64,7 @@
             <section>
                 <h3>World definition</h3>
                 <div class="half">
+                    <img height="500px" src="images/mower_world.png">
                 </div>
                 <div class="half">
                     <p>You are provided with a world for your mower.</p>
@@ -82,7 +83,7 @@
                     <li>When you want to stop the VM, use the <i>vagrant halt</i> command</li>
                 </p>
                 <p>
-                    Load the world and test it in the VM terminal
+                    Commands to load the world and test it in the VM terminal
                     <li>Run the following command and start playing: <i>python ~/iMower/the-mower-world/game.py</i></li>
                     <li>You have several worlds to play with. To load a new world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2</i></li>
                 </p>
@@ -145,9 +146,9 @@
         <section>
             <section>
                 <h3>What Problem-Solving involves</h3>
-                <li>Goal Formulation</li>
-                <li>Problem Formulation: What actions and states to consider, given a goal</li>
-                <li>Search algorithm: Takes a problem as input and returns a solution in the form of an action sequence</li>
+                <li><b>Goal Formulation</b></li>
+                <li><b>Problem Formulation</b>: What actions and states to consider, given a goal</li>
+                <li><b>Search algorithm</b>: Takes a problem as input and returns a solution in the form of an action sequence</li>
             </section>
             <section>
                 <h3>What is a Problem ?</h3>
@@ -173,6 +174,31 @@
             </section>
             <section>
                 <h3>The Mower Problem</h3>
+                <h4>Start State</h4>
+                <div class="center">
+                    <img src="images/MowerProblem_StartState.png">
+                </div>
+            </section>
+            <section>
+                <h3>The Mower Problem</h3>
+                <h4>State 1</h4>
+                <div class="center">
+                    <img src="images/MowerProblem_S1.png">
+                </div>
+            </section>
+            <section>
+                <h3>The Mower Problem</h3>
+                <h4>State 2</h4>
+                <div class="center">
+                    <img src="images/MowerProblem_S2.png">
+                </div>
+            </section>
+            <section>
+                <h3>The Mower Problem</h3>
+                <h4>Goal State</h4>
+                <div class="center">
+                    <img src="images/MowerProblem_GoalState.png">
+                </div>
             </section>
         </section>
         <section>
@@ -184,7 +210,7 @@
             </section>
             <section>
                 <p>All search algorithms share the same basic structure.</p>
-                <p>They vary primarily according to how they choose which state to expand next: The search strategy.</p>
+                <p>They vary primarily according to how they choose which state to expand next: <b>The search strategy</b>.</p>
             </section>
             <section>
                 <h3>Structure for search algorithms</h3>
@@ -210,8 +236,8 @@
                 child_node = RESULT(node.STATE, action)
                 frontier.push(child_node)
                 </code></pre>
-                Problem: Can explore a node that has already been explored
-                Solution: Remember the explored nodes
+                <p><b>Problem</b>: Can explore a node that has already been explored</p>
+                <p><b>Solution</b>: Remember the explored nodes</p>
             </section>
             <section>
                 <h3>Graph Search</h3>
@@ -236,8 +262,8 @@
             <section>
                 <h3>Measuring Problem-Solving Performance</h3>
                 Four ways to evaluate a search algorithm's performance
-                <li>Completeness</li>
-                <li>Optimality</li>
+                <li>Completeness: <i>Will the algorithm find a goal?</i></li>
+                <li>Optimality: <i>Will the algorithm find the optimal goal</i></li>
                 <li>Time Complexity</li>
                 <li>Space Complexity</li>
             </section>
@@ -511,7 +537,7 @@
         </section>
         <section>
             <h3>Definition</h3>
-            <p>Uses <span class="bold">problem-specific knowledge</span> beyond the definition of the problem. Can find solutions more efficiently than can an uninformed strategy.</p>
+            <p>Uses <b>problem-specific knowledge</b> beyond the definition of the problem. Can find solutions more efficiently than can an uninformed strategy.</p>
             <p>A node is selected for expansion based on an evaluation function:</p>
             <div class="center"><blockquote><span class="bold">f(n) = g(n) + h(n)</span></blockquote></div>
             <p>
@@ -555,11 +581,11 @@
             <section>
                 <h4>Conditions for Optimality</h4>
                 <div class="half">
-                    Admissibility
+                    <b>Admissibility</b>
                     <p>Never overestimates the cost to reach the goal</p>
                 </div>
                 <div class="half">
-                    Consistency
+                    <b>Consistency</b>
                     <p>Never overestimates the step cost from a state to a successor</p>
                 </div>
             </section>
