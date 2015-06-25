@@ -20,6 +20,8 @@ import search_agent as sa
 import search_functions_dev
 import search_functions_sol
 
+import threading
+
 
 def load_world_settings(path):
     f = open(path, 'r')
@@ -210,7 +212,7 @@ def main():
     parser.add_argument('--solution', action='store_const', const=True, default=False)
     parser.add_argument('--check_frontier', action='store_const', const=True, default=False)
     parser.add_argument('--earth_mode', action='store_const', const=True, default=False)
-    parser.add_argument('--edge_size', default=700, type=int)
+    parser.add_argument('--edge_size', default=None, type=int)
 
     args = parser.parse_args()
 
@@ -221,7 +223,7 @@ def main():
     grid_size = gameState.get_grid_size()
     ratio = grid_size[0]*1./grid_size[1]
 
-    xw = 200 if args.world == 'bonus' else args.edge_size
+    xw = args.edge_size if args.edge_size else (200 if args.world == 'bonus' else 700)
     window_size = (int(xw/ratio), xw)
     actions_mapping = {K_DOWN: 'DOWN', K_UP: 'UP', K_RIGHT: 'RIGHT', K_LEFT: 'LEFT'}
 
@@ -235,16 +237,20 @@ def main():
     draw_world(window, blocks, block_size, gameState, font, window_size)
 
     if args.agent is not None:
-        search_fun = getattr(search_functions_sol if args.solution else search_functions_dev, args.agent)
-        heur = getattr(search_functions_sol if args.solution else search_functions_dev, args.heuristic)
-        prob = sa.MowSearchProblem(gameState)
-        agent = sa.SearchAgent(problem=prob, search_fun=search_fun, heuristic=heur, check_frontier=args.check_frontier)
-        agent.plan()
+            search_fun = getattr(search_functions_sol if args.solution else search_functions_dev, args.agent)
+            heur = getattr(search_functions_sol if args.solution else search_functions_dev, args.heuristic)
+            prob = sa.MowSearchProblem(gameState)
+            agent = sa.SearchAgent(problem=prob, search_fun=search_fun, heuristic=heur, check_frontier=args.check_frontier)
 
+    init_agent = True
     continuer = 1
     timelapse = 0.07
     start = time.time()
     while continuer:
+        if init_agent and (args.agent is not None):
+            threading.Thread(target=agent.plan).start()
+            init_agent = False
+
         t = time.time()
         if t - start >= timelapse:
             action = "STOP"
@@ -255,7 +261,7 @@ def main():
                     if event.type == KEYDOWN:
                         action = actions_mapping.get(event.key)
 
-            if args.agent is not None:
+            if (not init_agent) and (threading.active_count() == 1) and args.agent is not None:
                 action = agent.get_action()
 
             if not (gameState.is_win() or gameState.is_game_over()):
