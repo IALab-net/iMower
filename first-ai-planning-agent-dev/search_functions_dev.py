@@ -13,7 +13,7 @@ def null_heuristic(state, problem=None):
 # TODO: Define your heuristic
 
 
-def child_node(problem, parent, action, heuristic):
+def child_node(problem, parent, action):
     new_state = problem.result(parent['state'], action)
     path = parent['path'][:] + [action]
     path_cost = parent['path_cost'] + problem.step_cost(parent['state'], action)
@@ -24,51 +24,56 @@ def child_node(problem, parent, action, heuristic):
     return child
 
 
-def graph_search(frontier, problem, heuristic=None, check_frontier=False):
-	node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
+def graph_search(frontier, problem, heuristic=None):
+    node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
 
-	# TODO: Check if the current state is a goal state. If so, return the path argument of the node
+    # TODO: Check if the current state is a goal state. If so, return the path argument of the node
+    # HINT: Check the definition of a problem in the python_helper.py
 
-	# TODO: Add the current state to the frontier and initialize an explored set
+    # TODO: Push the current state to the frontier and initialize an explored set
 
-	while not frontier.isEmpty():
-		# TODO: Pop the first element from the frontier
+    while not frontier.isEmpty():
+        # TODO: Pop the first element from the frontier
 
-		# TODO: Check if it is a goal state. If so, return the path argument of the node
+        # TODO: Check if it is a goal state. If so, return the path argument of the node
 
-		# TODO: Add the node to the explored list
+        # TODO: Add the node to the explored set
 
-		for action in problem.actions(node['state']):
-			# TODO: define the child node associated to the action, using the child_node method
+        for action in problem.actions(node['state']):
+            # TODO: define the child node resulting from the action
 
-			# TODO: Add the child node to the frontier if it is neither in the explored set nor in the frontier
+            # TODO: Push the child node to the frontier if it isn't in the explored set
 
-			problem._expanded += 1
+            problem._expanded += 1
 
 
 def depth_first_search(problem, heuristic=None):
-	# TODO: Initialize the right type of frontier (check for possibilities in util.py)
-
-	# TODO: Load a graph search
+    # TODO: Initialize the right type of frontier
+    # HINT: check for possibilities in util.py
+    frontier = "<FILL IN>"
+    graph_search(frontier, problem, None)
     raise NotImplementedError
 
 
 def breadth_first_search(problem, heuristic=None):
-	# TODO: Initialize the right type of frontier (check for possibilities in util.py)
-
-	# TODO: Load a graph search
+    # TODO: Initialize the right type of frontier
+    # HINT: check for possibilities in util.py
+    frontier = "<FILL IN>"
+    graph_search(frontier, problem, None)
     raise NotImplementedError
 
 
 def uniform_cost_search(problem, heuristic=None):
-	# TODO: Initialize the right type of frontier (check for possibilities in util.py)
-
-	# TODO: Load a graph search
+    # TODO: Initialize the right type of frontier
+    # HINT: check for possibilities in util.py
+    frontier = "<FILL IN>"
+    graph_search(frontier, problem, None)
     raise NotImplementedError
 
 
 def a_star_search(problem, heuristic):
-	# TODO: Initialize the right type of frontier (check for possibilities in util.py)
-
-	# TODO: Load a graph search
+    # TODO: Initialize the right type of frontier
+    # HINT: check for possibilities in util.py
+    frontier = "<FILL IN>"
+    graph_search(frontier, problem, heuristic)
     raise NotImplementedError

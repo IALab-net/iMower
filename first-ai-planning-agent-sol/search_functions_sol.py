@@ -24,7 +24,7 @@ def min_manhattan_distance_heuristic_H(state, problem):
     return min(dist_to_H) if len(dist_to_H) else 0
 
 
-def child_node(problem, parent, action, heuristic):
+def child_node(problem, parent, action):
     new_state = problem.result(parent['state'], action)
     path = parent['path'][:] + [action]
     path_cost = parent['path_cost'] + problem.step_cost(parent['state'], action)
@@ -57,7 +57,7 @@ def graph_search(frontier, problem, heuristic=None, check_frontier=False):
         explored.add(node['state'])
 
         for action in problem.actions(node['state']):
-            child = child_node(problem, node, action, heuristic)
+            child = child_node(problem, node, action)
 
             if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
                 frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
