@@ -347,7 +347,7 @@
             <section>
                 <h4>Solution</h3>
                 <pre class="python"><code class="hljs">
-    def graph_search(frontier, problem, heuristic=None, check_frontier=False):
+    def graph_search(frontier, problem, heuristic=None):
         node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
 
         if problem.goal_test(node['state']):
@@ -367,7 +367,7 @@
             for action in problem.actions(node['state']):
                 child = child_node(problem, node, action, heuristic)
 
-                if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
+                if not (child['state'] in explored):
                     frontier.push(child, child['path_cost'])
 
             problem._expanded += 1
@@ -375,9 +375,9 @@
         raise Exception("Frontier is empty")
                 </code></pre>
                 <pre class="python"><code class="hljs">
-    def depth_first_search(problem, heuristic=None, check_frontier=False):
+    def depth_first_search(problem, heuristic=None):
         frontier = util.Stack()
-        return graph_search(frontier, problem, None, check_frontier)
+        return graph_search(frontier, problem, None)
                 </code></pre>
             </section>
             <section>
@@ -515,9 +515,9 @@
             <section>
                 <h4>Solution</h3>
                 <pre class="python"><code class="hljs">
-    def uniform_cost_search(problem, heuristic=None, check_frontier=False):
+    def uniform_cost_search(problem, heuristic=None):
         frontier = util.PriorityQueue()
-        return graph_search(frontier, problem, None, check_frontier)
+        return graph_search(frontier, problem, None)
                 </code></pre>
             </section>
             <section>
@@ -611,7 +611,7 @@
             <section>
                 <h4>Solution:</h4>
                 <pre class="python"><code class="hljs">
-    def graph_search(frontier, problem, heuristic=None, check_frontier=False):
+    def graph_search(frontier, problem, heuristic=None):
         node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
 
         if problem.goal_test(node['state']):
@@ -631,7 +631,7 @@
             for action in problem.actions(node['state']):
                 child = child_node(problem, node, action, heuristic)
 
-                if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
+                if not (child['state'] in explored):
                     frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
 
             problem._expanded += 1
@@ -639,9 +639,9 @@
         raise Exception("Frontier is empty")
                 </code></pre>
                 <pre class="python"><code class="hljs">
-    def a_star_search(problem, heuristic, check_frontier=False):
+    def a_star_search(problem, heuristic):
         frontier = util.PriorityQueue()
-        return graph_search(frontier, problem, heuristic, check_frontier)
+        return graph_search(frontier, problem, heuristic)
                 </code></pre>
             </section>
         </section>
