@@ -8,6 +8,7 @@ my_list[0] # Access first element of list
 # ---- Set
 my_set = set() # Initialize a set
 my_set.add('toto') # Add an element to the set
+'toto' in my_set # Check if 'toto' is in the set
 
 # ---- Dictionary
 my_dico = {'toto': 1, 'titi': 2, 'tata': 3} # Initialize a dictionary
