@@ -77,13 +77,13 @@
             <section>
                 <h3>Let's Play !</h3>
                 <p>
-                    Configurations to set up the Virtual Machine
+                    <u>Configurations to set up the Virtual Machine</u>
                     <li>Create a folder, let's say iMower, and paste the Vagrantfile in it</li>
                     <li>Then, run the <i>vagrant up</i> shell command in that folder</li>
                     <li>When you want to stop the VM, use the <i>vagrant halt</i> command</li>
                 </p>
                 <p>
-                    Commands to load the world and test it in the VM terminal
+                    <u>Commands to load the world and test it in the VM terminal</u>
                     <li>Run the following command and start playing: <i>python ~/iMower/the-mower-world/game.py</i></li>
                     <li>You have several worlds to play with. To load a new world, run the following line: <i>python ~/iMower/the-mower-world/game.py --world 2</i></li>
                 </p>
@@ -139,10 +139,10 @@
             <section>
                 <h3>Terminology</h3>
                 <div>
-                    <li>Fully vs Partially <b>Observable</b></li>
-                    <li><b>Deterministic</b> vs <b>Stochastic</b></li>
-                    <li><b>Discrete</b> vs <b>Continuous</b></li>
-                    <li><b>Benign</b> vs <b>Adversial</b></li>
+                    <li><b>Fully Observable</b> VS <b>Partially Observable</b></li>
+                    <li><b>Deterministic</b> VS <b>Stochastic</b></li>
+                    <li><b>Discrete</b> VS <b>Continuous</b></li>
+                    <li><b>Benign</b> VS <b>Adversial</b></li>
                 </div>
             </section>
         </section>
@@ -226,7 +226,7 @@
                 For each node of the tree, we have a structure that contains four components:
                 <li><i>node.STATE</i>: the state to which the node corresponds</li>
                 <li><i>node.ACTION</i>: the action that was applied to the parent to generate the node</li>
-                <li><i>node.PATH-COST</i>: the cost of the path from the initial state</li>
+                <li><i>node.PATH_COST</i>: the cost of the path from the initial state</li>
                 <li><i>node.PARENT</i>: the node in the search tree that generated this node</li>
             </section>
             <section>
@@ -368,7 +368,7 @@
                 child = child_node(problem, node, action, heuristic)
 
                 if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
-                    frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
+                    frontier.push(child, child['path_cost'])
 
             problem._expanded += 1
 
@@ -546,7 +546,7 @@
         </section>
         <section>
             <h3>Definition</h3>
-            <p>Uses <b>problem-specific knowledge</b> beyond the definition of the problem. Can find solutions more efficiently than can an uninformed strategy.</p>
+            <p>Uses <b>problem-specific knowledge</b> beyond the definition of the problem. Can find solutions more efficiently than an uninformed strategy.</p>
             <p>A node is selected for expansion based on an evaluation function:</p>
             <div class="center"><blockquote><span class="bold">f(n) = g(n) + h(n)</span></blockquote></div>
             <p>
@@ -609,7 +609,35 @@
                 </p>
             </section>
             <section>
-                <h4>Solution:</h3>
+                <h4>Solution:</h4>
+                <pre class="python"><code class="hljs">
+    def graph_search(frontier, problem, heuristic=None, check_frontier=False):
+        node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
+
+        if problem.goal_test(node['state']):
+            return solution(node)
+
+        frontier.push(node, node['path_cost'])
+        explored = set()
+
+        while not frontier.isEmpty():
+            node = frontier.pop()
+
+            if problem.goal_test(node['state']):
+                return solution(node)
+
+            explored.add(node['state'])
+
+            for action in problem.actions(node['state']):
+                child = child_node(problem, node, action, heuristic)
+
+                if not ((child['state'] in explored) or (frontier.isin(child['state'], fun=lambda x: x['state']) if check_frontier else False)):
+                    frontier.push(child, child['path_cost'] + (heuristic(child['state'], problem) if heuristic else 0))
+
+            problem._expanded += 1
+
+        raise Exception("Frontier is empty")
+                </code></pre>
                 <pre class="python"><code class="hljs">
     def a_star_search(problem, heuristic, check_frontier=False):
         frontier = util.PriorityQueue()
