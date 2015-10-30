@@ -23,8 +23,11 @@ def child_node(problem, parent, action):
              }
     return child
 
+def solution(node):
+    return node['path']
 
-def graph_search(frontier, problem, heuristic=None):
+
+def graph_search(frontier, problem, heuristic=None, check_frontier=False):
     node = {'state': problem.get_initial_state(), 'path': [], 'path_cost': 0}
 
     # TODO: Check if the current state is a goal state. If so, return the path argument of the node
