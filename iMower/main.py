@@ -6,7 +6,7 @@ from pyglet.window import key
 from pyglet.window import mouse
 
 # Here
-from utils.images import get_image
+from iMower.utils.images import get_image
 
 class App():
 
@@ -21,7 +21,7 @@ class App():
 
 
     def select_world(self, code):
-        self.world_src = "worlds/{0}.txt".format(code)
+        self.world_src = "iMower/worlds/{0}.txt".format(code)
 
     def load_world(self):
         if self.world_width > 0:
@@ -78,9 +78,3 @@ def on_mouse_press(x, y, button, modifiers):
 def on_draw():
     window.clear()
     app.draw_world()
-
-if __name__ == "__main__":
-    # Print all events
-    app.select_world("world-1")
-    # window.push_handlers(pyglet.window.event.WindowEventLogger())
-    pyglet.app.run()
